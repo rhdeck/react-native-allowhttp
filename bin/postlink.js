@@ -6,14 +6,17 @@ var plist = require("plist");
 //Get my directory
 var thisPath = process.cwd();
 var allowedDomains;
+var allowhttp;
+var allowlocalhttp;
 const packagePath = path.resolve(thisPath, "package.json");
 if (fs.existsSync(packagePath)) {
   const package = require(packagePath);
   //Get allowed domains
-  allowedDomains = package.httpDomains;
-  if (!allowedDomains) {
-    console.log("No allowed domains specified - aborting");
-    process.exit();
+  const parent = package.allowHttp;
+  if (parent) {
+    allowedDomains = parent.httpDomains;
+    allowhttp = parent.allowHTTP;
+    allowlocalhttp = parent.allowLocalHTTP;
   }
 }
 var iosPath = path.resolve(thisPath, "ios");
@@ -22,18 +25,24 @@ if (!fs.existsSync(iosPath)) {
   console.log(fs.readdirSync(thisPath));
   process.exit();
 }
+
 plists = glob.sync(path.resolve(iosPath + "/*/Info.plist"));
 plists.map(path => {
   const source = fs.readFileSync(path, "utf8");
   var o = plist.parse(source);
   if (!o.NSAppTransportSecurity) o.NSAppTransportSecurity = {};
-  if (!o.NSAppTransportSecurity.NSExceptionDomains)
-    o.NSAppTransportSecurity.NSExceptionDomains = {};
-  allowedDomains.forEach(d => {
-    o.NSAppTransportSecurity.NSExceptionDomains[d] = {
-      NSExceptionAllowsInsecureHTTPLoads: true
-    };
-  });
+  o.NSAppTransportSecurity.NSExceptionDomains = {
+    localhost: { NSExceptionAllowsInsecureHTTPLoads: true }
+  };
+  if (allowedDomains) {
+    allowedDomains.forEach(d => {
+      o.NSAppTransportSecurity.NSExceptionDomains[d] = {
+        NSExceptionAllowsInsecureHTTPLoads: true
+      };
+    });
+  }
+  o.NSAppTransportSecurity.NSAllowsArbitraryLoads = !!allowhttp;
+  o.NSAppTransportSecurity.NSAllowsLocalNetworking = !!allowlocalhttp;
   const xml = plist.build(o);
   fs.writeFileSync(path, xml);
 });

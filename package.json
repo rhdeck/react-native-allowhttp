@@ -1,7 +1,8 @@
 {
-  "name": "react-native-sethttpdomain",
+  "name": "react-native-allowhttp",
   "version": "1.0.0",
-  "description": "React-Native plugin to set allowed HTTP domains for your app.",
+  "description":
+    "React-Native plugin to set allowed HTTP settings and domains for your app.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

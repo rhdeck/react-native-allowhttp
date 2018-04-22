@@ -1,8 +1,24 @@
-# react-native-sethttpdomain
+# react-native-allowhttp
 
-React-Native plugin to set allowed HTTP domains for your app.
+React-Native plugin to set allowed HTTP settings domains for your app. Modifies the Info.plist of your app. Note that changing these settings will trigger extra App Store review and might make your app insecure if you don't lock down your business logic. The use case is either permitting exotic networking (for specific domains) or allowing older, less-secure networking that is already protected by a VPN. (E.g. servers running in office environments)
 
 # Usage
+
+## react-native allowhttp
+
+Allow all arbitrary network connections. This disables app transport security, so it is up to you to prevent insecure communications.
+
+## react-native disallowhttp
+
+Undo the above
+
+## react-native allowlocalhttp
+
+Allow arbitrary netwprk connections in local network. This usually means unqualified domains and those ending in ".local".
+
+## react-native disallowlocalhttp
+
+Disable the above
 
 ## react-native addhttpdomain [domain]
 
