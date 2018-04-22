@@ -9,24 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhdeck/react-native-sethttpdomain.git"
+    "url": "git+https://github.com/rhdeck/react-native-allowhttp.git"
   },
   "keywords": ["react-native", "http"],
   "author": "Ray Deck",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rhdeck/react-native-sethttpdomain/issues"
+    "url": "https://github.com/rhdeck/react-native-allowhttp/issues"
   },
-  "homepage": "https://github.com/rhdeck/react-native-sethttpdomain#readme",
+  "homepage": "https://github.com/rhdeck/react-native-allowhttp#readme",
   "dependencies": {
     "glob": "^7.1.2",
     "plist": "^3.0.1"
   },
-  "bin": { "react-native-sethttpdomain": "bin/postlink.js" },
+  "bin": { "react-native-allowhttp": "bin/postlink.js" },
   "rnpm": {
     "plugin": "bin/plugin.js",
     "commands": {
-      "postlink": "node node_modules/.bin/react-native-sethttpdomain"
+      "postlink": "node node_modules/.bin/react-native-allowhttp"
     }
   }
 }
