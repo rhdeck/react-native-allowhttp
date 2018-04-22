@@ -41,8 +41,14 @@ plists.map(path => {
       };
     });
   }
-  o.NSAppTransportSecurity.NSAllowsArbitraryLoads = !!allowhttp;
-  o.NSAppTransportSecurity.NSAllowsLocalNetworking = !!allowlocalhttp;
+  if (allowhttp) {
+    o.NSAppTransportSecurity.NSAllowsArbitraryLoads = true;
+    delete o.NSAppTransportSecurity.NSAllowsLocalNetworking;
+  } else {
+    delete o.NSAppTransportSecurity.NSAllowsArbitraryLoads;
+    if (allowlocalhttp)
+      o.NSAppTransportSecurity.NSAllowsLocalNetworking = allowlocalhttp;
+  }
   const xml = plist.build(o);
   fs.writeFileSync(path, xml);
 });
